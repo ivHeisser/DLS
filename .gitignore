@@ -1,11 +1,8 @@
-# custom folders
+#  ignore custom folders
 _Sem_01/
 _Sem_02/
 _Speech/
 examples/
-
-# ignore all files and foders inside _Sem_01
-_Sem_01/*
 
 # But don't ignore projects
 !_Sem_01/project-GeomML/
