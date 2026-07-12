@@ -1,0 +1,6 @@
+_target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+
+mode: min       # минимизируем val_mse
+factor: 0.5     # уменьшить LR в 2 раза
+patience: 3     # если 3 эпохи нет улучшения
+min_lr: 1e-6

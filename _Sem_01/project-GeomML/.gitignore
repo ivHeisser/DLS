@@ -1,0 +1,36 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# build artifacts
+dist/
+build/
+*.egg-info/
+
+# VS Code
+.vscode/
+!.vscode/settings.json
+*.code-workspace
+
+# custom folders
+docs/
+notebooks/higgs-symmetry-tda/
+notebooks/dplr-molecular/
+notebooks/dplr-egnn/
+!notebooks/dplr-dimenet_lite/checkpoints
+!notebooks/dplr-dimenet_lite/checkpoints/*
+
+# custom files
+src/geomml/trainers/trainer_v*.py
+src/geomml/losses/neur_ips.py
+
+
+#### ослеживать только ipynb в notebooks
+#### игнорировать output-требуху при экспериментах
+# Игнорировать всё внутри notebooks
+notebooks/**
+# Но не игнорировать каталоги (иначе Git не сможет добраться до ipynb)
+!notebooks/**/
+# Не игнорировать ноутбуки
+!notebooks/**/*.ipynb

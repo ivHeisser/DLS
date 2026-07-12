@@ -1,0 +1,4 @@
+dir: checkpoints
+save_best: true
+metric: mse
+mode: min

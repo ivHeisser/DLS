@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "geomml"
+version = "0.1"
+description = "Full research codebase structure"
+requires-python = ">=3.9"
+
+dependencies = [
+  "torch",
+  "torch-geometric",
+  "egnn-pytorch",
+  "giotto-tda",
+  "numpy",
+  "tqdm",
+  "scikit-learn",
+  "pyyaml",
+]
+
+[tool.uv]
+dev-dependencies = [
+  "ruff",
+  "black",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

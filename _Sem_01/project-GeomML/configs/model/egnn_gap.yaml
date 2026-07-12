@@ -1,0 +1,6 @@
+_target_: geomml.models.factory.build_model
+
+name: egnn_gap
+num_atom_types: 100
+emb_dim: 128
+depth: 4

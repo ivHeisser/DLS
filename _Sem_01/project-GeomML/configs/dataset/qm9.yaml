@@ -1,0 +1,7 @@
+batch_size: 32
+num_workers: 4
+shuffle: true
+
+dataset_name: qm9 
+path: data
+root: data/QM9
