@@ -16,8 +16,12 @@ build/
 # custom folders
 docs/
 notebooks/higgs-symmetry-tda/
+notebooks/higgs-symmetry-tda/*
 notebooks/dplr-molecular/
+notebooks/dplr-molecular/*
 notebooks/dplr-egnn/
+notebooks/dplr-egnn/*
+
 !notebooks/dplr-dimenet_lite/checkpoints
 !notebooks/dplr-dimenet_lite/checkpoints/*
 
