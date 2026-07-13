@@ -38,3 +38,4 @@ notebooks/**
 !notebooks/**/
 # Не игнорировать ноутбуки
 !notebooks/**/*.ipynb
+!notebooks/README.md
