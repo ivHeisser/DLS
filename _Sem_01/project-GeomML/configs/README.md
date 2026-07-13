@@ -4,7 +4,7 @@
 `configs/`
 
 Все параметры экспериментов. Например:
-```mermaid
+```
 mindmap
 
 model:

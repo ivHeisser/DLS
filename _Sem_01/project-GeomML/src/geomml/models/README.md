@@ -1,7 +1,7 @@
 ## Добавление новой модели
 
 Добавление новой модели происходит в директорию `models`. Например:
-```mermaid
+```
 models/
     egnn.py
 ```
@@ -23,7 +23,7 @@ build_model('egnn')
 
 ## Cоблюдение батч-интерфейса (контракта)
 Dataset output:
-```mermaid
+```python
 data = {
     "z": atomic_number OR fallback,
     "pos": zero if missing,
@@ -36,7 +36,7 @@ data = {
 }
 ```
 Model becomes dataset-agnostic
-```mermaid
+```python
 z = batch.z
 pos = batch.pos
 task = batch.task_id

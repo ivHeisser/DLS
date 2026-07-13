@@ -18,7 +18,7 @@ class QM9Dataset:
 * multi-property regression	(Alchemy)
 
 Тогда нужно дальше сделать:
-```mermaid
+```
 BaseGraphDataset
  ├── ScalarGraphDataset   (QM9, MoleculeNet)
  └── MultiTaskGraphDataset (Alchemy)
@@ -30,7 +30,7 @@ BaseGraphDataset
 
 ## Формат вывода датасета
 Dataset output:
-```mermaid
+```python
 data = {
     "z": atomic_number OR fallback,
     "pos": zero if missing,
@@ -44,7 +44,7 @@ data = {
 }
 ``` 
  Model becomes dataset-agnostic:
-```mermaid
+```python
 z = batch.z
 pos = batch.pos
 task = batch.task_id
@@ -66,7 +66,7 @@ TODO:  “production-grade” architecture:
 8. cached preprocessing (speed x10–100)
 9. unified edge construction (QM9 vs MoleculeNet differences)
 10. сделать через единый type inference слой. Идея: один раз “распознается” датасет → дальше вся система работает автоматически. Для любого dataset получить:
-```mermaid
+```python
 dataset_type ∈ {
     "graph",
     "smiles",
@@ -74,7 +74,7 @@ dataset_type ∈ {
 }
 ```
 и уже от этого выбирать pipeline:
-```mermaid
+```
 graph → OGB-style
 smiles → RDKit 2D→3D
 3d → QM9 / GEOM-style

@@ -10,7 +10,7 @@ loss(pred_tensor, target_tensor, model=None)
 ## Рекомендация по многокомпонентным лоссам
 
 Для многокомпонентных лосс-функции лучше каждую функцию делать отдельно. Например:
-```mermaid
+```
 classification.py
 BCELoss
 
