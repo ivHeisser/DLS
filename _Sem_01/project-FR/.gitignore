@@ -1,0 +1,17 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# build artifacts
+dist/
+build/
+*.egg-info/
+
+# VS Code
+.vscode/
+!.vscode/settings.json
+*.code-workspace
+
+# custom folders
+CelebA/
