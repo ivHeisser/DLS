@@ -16,3 +16,9 @@ build/
 # custom folders
 data/
 data/**
+weights_arcface/
+weights_arcface/**
+weights_ce/
+weights_ce/**
+weightsStackedHourglass/
+weightsStackedHourglass/**
