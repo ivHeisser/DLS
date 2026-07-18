@@ -8,6 +8,8 @@
 * [1. FaceAlignment](1_FaceAlignment.ipynb)
 * [2. ArcFace](2_ArcFace.ipynb)
 
+Все вспомогательные файлы с метаданными датасета (TXT, JSON и CSV) собраны в директории `data`.
+
 ## Результаты работы
 
 Оформлены и представлены в Jupiter ноутбуках.
