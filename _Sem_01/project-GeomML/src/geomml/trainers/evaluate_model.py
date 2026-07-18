@@ -1,29 +1,24 @@
-import math
-import torch
+import math, torch
 import torch.nn.functional as F
 from collections import defaultdict
+from sklearn.metrics import mean_absolute_error,mean_squared_error
 
 
 @torch.no_grad()
 def evaluate_model(model, loader, device=None):
     model.eval()
-
     if device is None:
         device = next(model.parameters()).device
-
     stats = defaultdict(lambda: {
         "sse": 0.0,      # sum squared errors
         "sae": 0.0,      # sum absolute errors
         "n": 0
     })
-
     for batch in loader:
         batch = batch.to(device)
-
         pred = model(batch)["y"].view(-1)
         target = batch.y.view(-1)
         task = batch.task_id.view(-1)
-
         mask = getattr(batch, "mask_y", torch.ones_like(target)).bool()
         if mask.ndim == target.ndim + 1 and mask.shape[-1] == 1:
             mask = mask.squeeze(-1)
@@ -34,43 +29,33 @@ def evaluate_model(model, loader, device=None):
         pred = pred[mask]
         target = target[mask]
         task = task[mask]
-
         for tid in task.unique():
             idx = task == tid
-
             err = pred[idx] - target[idx]
-
             stats[int(tid)]["sse"] += err.pow(2).sum().item()
             stats[int(tid)]["sae"] += err.abs().sum().item()
             stats[int(tid)]["n"] += idx.sum().item()
-
     per_task = {}
-
     total_sse = 0
     total_sae = 0
     total_n = 0
 
     for tid, s in sorted(stats.items()):
-
         mse = s["sse"] / s["n"]
         rmse = math.sqrt(mse)
         mae = s["sae"] / s["n"]
-
         per_task[tid] = {
             "mse": mse,
             "rmse": rmse,
             "mae": mae,
             "n": s["n"]
         }
-
         total_sse += s["sse"]
         total_sae += s["sae"]
         total_n += s["n"]
-
     overall_mse = total_sse / total_n
     overall_rmse = math.sqrt(overall_mse)
     overall_mae = total_sae / total_n
-
     return {
         "overall": {
             "mse": overall_mse,
@@ -79,6 +64,8 @@ def evaluate_model(model, loader, device=None):
         },
         "per_task": per_task,
     }
+
+
 
 
 def print_metrics(model, test_loader):
@@ -96,3 +83,40 @@ def print_metrics(model, test_loader):
             f"RMSE={m['rmse']:.6f}\t"
             f"MAE={m['mae']:.6f}\t"
         )
+
+
+
+
+
+
+@torch.no_grad()
+def evaluate_qm9s(model,loader,device="cuda"):
+    model.eval()
+    dipole_pred, dipole_true, polar_pred, polar_true=[], [], [], []
+
+    for batch in loader:
+        batch=batch.to(device)
+        out=model(batch)
+
+        dipole_pred.append(out["dipole"].cpu())
+        dipole_true.append(batch.dipole.cpu())
+
+        polar_pred.append(out["polar"].cpu())
+        polar_true.append(batch.polar.cpu())
+
+    dipole_pred=torch.cat(dipole_pred)
+    dipole_true=torch.cat(dipole_true)
+
+    polar_pred=torch.cat(polar_pred)
+    polar_true=torch.cat(polar_true)
+
+    return {
+        "dipole":{
+            "MAE":mean_absolute_error( dipole_true, dipole_pred ),
+            "RMSE":mean_squared_error( dipole_true, dipole_pred, squared=False )
+        },
+        "polar":{
+            "MAE":mean_absolute_error( polar_true, polar_pred ),
+            "RMSE":mean_squared_error( polar_true, polar_pred, squared=False )
+        }
+    }

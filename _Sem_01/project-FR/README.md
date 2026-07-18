@@ -1,7 +1,8 @@
 # Проект Face Recognition
  	
-Разработка пайплайна для задачи Face Recognition
+Разработка пайплайна для задачи Face Recognition.
 
+TG: @polyako_degenerato
 ## Cтруктура проекта
 
 В проекте выполнена обязательная часть, состоящая из:

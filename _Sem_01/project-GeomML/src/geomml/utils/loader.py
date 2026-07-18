@@ -11,12 +11,14 @@ def build(
     batch_size=64,
     train_size=0.8,
     valid_size=0.1,
+    collate_fn = None,
 ):
     return Builder(
         dataset=dataset,
         batch_size=batch_size,
         train_size=train_size,
         valid_size=valid_size,
+        collate_fn = collate_fn,
     )
 
 @dataclass
@@ -31,6 +33,7 @@ class Builder:
             batch_size : int = 64,
             train_size : float = 0.8,
             valid_size : float = 0.1,
+            collate_fn = None,
     ):
         n = len(dataset)
         print (f"\nDataset size: {n}\n")
@@ -48,21 +51,21 @@ class Builder:
             train_ds,
             batch_size=batch_size,
             shuffle=True,
-            collate_fn=self.collate_fn
+            collate_fn=collate_fn
         )
 
         self.valid = DataLoader(
             valid_ds,
             batch_size=batch_size,
             shuffle=False,
-            collate_fn=self.collate_fn
+            collate_fn=collate_fn
         )
 
         self.test = DataLoader(
             test_ds,
             batch_size=batch_size,
             shuffle=False,
-            collate_fn=self.collate_fn
+            collate_fn=collate_fn
         )
  
     def collate_fn(batch):

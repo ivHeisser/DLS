@@ -16,7 +16,7 @@ def mae_mse(output_key="y", target_key="y", mae_w=0.8, mse_w=0.2): # python-clos
 
     return loss_fn
 
-@LOSSES.register("multitask_loss")
+@LOSSES.register("multitask")
 def multitask_loss(
     y_weights=(0.8, 0.2),
     dipole_weights=(1.0, 0.0),

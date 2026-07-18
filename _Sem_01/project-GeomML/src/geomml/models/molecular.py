@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torch_geometric.nn import global_mean_pool
 from geomml.utils.base_model import BaseModel
-from geomml.losses.mae_mse import multi_task
+from geomml.losses.mae_mse import multitask_loss
 from geomml.registry import MODELS
 
 
