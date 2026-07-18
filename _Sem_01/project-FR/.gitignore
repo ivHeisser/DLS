@@ -14,8 +14,12 @@ build/
 *.code-workspace
 
 # custom folders
-data/
+# Ignore everything in data
 data/**
+# Except txt and csv files
+!data/**/*.txt
+!data/**/*.csv
+!data/**/*.json
 weights_arcface/
 weights_arcface/**
 weights_ce/
