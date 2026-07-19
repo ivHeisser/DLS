@@ -4,6 +4,8 @@
 
 Фреймворк находится на стадии разработки. Структура проекта, моделей и общая реализация может меняться.
 
+Проектное задание DLS-spring-2026 находится в [ноутбуке](_Sem_01/project-GeomML/notebooks/dplr-qm9/dplr.ipynb), а ноутбук в [директории](_Sem_01/project-GeomML/notebooks/dplr-qm9), там же [README.md](_Sem_01/project-GeomML/notebooks/dplr-qm9/README.md) :)
+
 ## 1. Структура проекта
 
 ```mermaid
