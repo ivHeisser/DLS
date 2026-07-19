@@ -11,11 +11,25 @@ class QM9SData(Data):
         if key in [ "dipole", "polar", "energy", "quadrupole", "octapole", "hyperpolar" ]:
             return None
         return super().__cat_dim__(key,value,*args,**kwargs)
+    
+class FilterDegeneratePolar:
+    def __init__(self, det_eps=1e-8):
+        self.det_eps = det_eps
+
+    def __call__(self, dataset):
+        filtered = []
+        for data in dataset:
+            P = data.polar.view(3, 3).float()
+            if torch.det(P).abs() >= self.det_eps:
+                filtered.append(data)
+        return filtered
+
 
 @DATASETS.register("qm9s")
 class QM9SDataset(BaseGraphDataset):
     def __init__(self,root="data/qm9s_processed.pt",normalize=False,stats=None):
         self.dataset=torch.load(root,map_location="cpu")
+        self.dataset = FilterDegeneratePolar(det_eps=1e-8)(self.dataset)
         assert len(self.dataset)>0,"Empty dataset!"
         transforms=[AddMolecularFeatures()]
         if normalize:

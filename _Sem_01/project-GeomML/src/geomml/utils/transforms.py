@@ -9,18 +9,24 @@ class NormalizeTargets(BaseTransform):
         self.stats = stats
         self.keys = keys
 
-    def forward(self,data):
+    def forward(self, data):
         eps = 1e-8
         for key in self.keys:
+            if not hasattr(data, key):
+                continue
+            x = getattr(data, key).float()
+            mean = self.stats[f"{key}_mean"].to(x.device)
+            std = self.stats[f"{key}_std"].to(x.device).clamp_min(eps)
             if hasattr(data, f"mask_{key}"):
-                mask = getattr(data, f"mask_{key}")
-                x[mask == 0] = 0
-                mean = self.stats[f"{key}_mean"]
-                std = self.stats[f"{key}_std"]
-                x = (x - mean) / (std + eps)
-                setattr(data, key, x)
+                mask = getattr(data, f"mask_{key}").bool()
+                x = x.clone()
+                x[mask] = (x[mask] - mean) / std
+            else:
+                x = (x - mean) / std
+            setattr(data, key, x)
         return data
-    
+
+
 
 
 class AddMolecularFeatures(BaseTransform):
