@@ -21,24 +21,30 @@ class QM9SDimeNet(BaseModel):
         self.fusion=nn.Sequential(
             nn.Linear(hidden_dim*2,hidden_dim),
             nn.SiLU(),
+            nn.Dropout(0.1),
             nn.LayerNorm(hidden_dim)
         )
         self.backbone=nn.Sequential(
             nn.Linear(hidden_dim,hidden_dim),
             nn.SiLU(),
+            nn.Dropout(0.1),
             nn.LayerNorm(hidden_dim),
+
             nn.Linear(hidden_dim,hidden_dim),
             nn.SiLU(),
+            nn.Dropout(0.1),
             nn.LayerNorm(hidden_dim)
         )
         self.dipole_head=nn.Sequential(
             nn.Linear(hidden_dim,hidden_dim),
             nn.SiLU(),
+            nn.Dropout(0.1),
             nn.Linear(hidden_dim,3)
         )
         self.polar_head=nn.Sequential(
             nn.Linear(hidden_dim,hidden_dim),
             nn.SiLU(),
+            nn.Dropout(0.1),
             nn.Linear(hidden_dim,9)
         )
 
