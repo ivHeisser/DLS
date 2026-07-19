@@ -20,7 +20,7 @@
 Решить обратную задачу экстракции prior-ов из топологического анализа данных и построить пайплайн для выбора оптимальной DL архитекутры автоматически
 
 ## **Последующие этапы**.
-1. Ознакомится с:
+1. Ознакомиться с:
     * [5] [Maurice Weiler | Equivariant neural networks - what, why and how?](https://maurice-weiler.gitlab.io/blog_post/cnn-book_1_equivariant_networks), 
     * [7] [YouTube AMMI Course "Geometric Deep Learning"](https://www.youtube.com/watch?v=PtA0lg_e5nA&list=PLn2-dEmQeTfQ8YVuHBOvAhUlnIPYxkeu3), 
     * понятиями SU/SO(3) симметрий 
