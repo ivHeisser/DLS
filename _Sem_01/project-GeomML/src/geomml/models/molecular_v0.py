@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 from torch_geometric.nn import global_mean_pool
 from geomml.utils.base_encoder import *
+from geomml.utils.base_model import BaseModel
 from geomml.registry import MODELS
 
 
@@ -52,7 +53,7 @@ class TDAEncoder(BaseEncoder):
 
 
 @MODELS.register(["molecular__", "neur_ips__"])
-class MolecularModel__(nn.Module):
+class MolecularModel__(BaseModel):
     """
     Clean multimodal molecular model:
     - geometric graph encoder
@@ -61,7 +62,7 @@ class MolecularModel__(nn.Module):
     """
 
     def __init__(self, n_features=128):
-        super().__init__()
+        super().__init__(num_tasks=1)
 
         self.geom = SimpleGeomML(256)
         self.tda = TDAEncoder(n_features)

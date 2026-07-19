@@ -64,7 +64,7 @@ class MolecularModel(BaseModel):
     real E(3)-equivariant encoder (EGNN)
     '''
     def __init__(self, num_tasks=3, dim=128, n_tda=128):
-        super().__init__()
+        super().__init__(num_tasks=num_tasks)
 
         self.graph = EGNNEncoder(dim=dim)
         self.tda = nn.Sequential(

@@ -8,14 +8,7 @@ from torch_geometric.data import Data
 
 class QM9SData(Data):
     def __cat_dim__(self,key,value,*args,**kwargs):
-        if key in [
-            "dipole",
-            "polar",
-            "energy",
-            "quadrupole",
-            "octapole",
-            "hyperpolar"
-        ]:
+        if key in [ "dipole", "polar", "energy", "quadrupole", "octapole", "hyperpolar" ]:
             return None
         return super().__cat_dim__(key,value,*args,**kwargs)
 
@@ -31,6 +24,13 @@ class QM9SDataset(BaseGraphDataset):
             self.stats=stats
             transforms.append(NormalizeTargets(stats,keys=["dipole","polar"]))
         super().__init__(self.dataset,transform=Compose(transforms))
+        
+    def __getitem__(self, idx):
+        data = self.dataset[idx]
+        if self.transform:
+            data = self.transform(data)
+        data.task_id = torch.tensor( 0, dtype=torch.long )
+        return data
 
     def compute_stats(self):
         stats={}

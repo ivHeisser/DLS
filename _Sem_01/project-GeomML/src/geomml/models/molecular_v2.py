@@ -116,7 +116,7 @@ class MolecularModel(BaseModel):
         n_features=128,
         num_tasks=3,
     ):
-        super().__init__()
+        super().__init__(num_tasks=num_tasks)
         self.log_vars = nn.Parameter(torch.zeros(3)) 
         self.geom = GraphEncoder()
         self.tda = TDAEncoder(n_features)

@@ -10,7 +10,7 @@ from geomml.models.dimenet_lite import DimeEncoder
 class QM9SDimeNet(BaseModel):
 
     def __init__( self, hidden_dim=256, n_tda=128, layers=6 ):
-        super().__init__()
+        super().__init__(num_tasks=2)
         self.geom=DimeEncoder( h=hidden_dim, layers=layers )
         self.tda=nn.Sequential(
             nn.Linear(n_tda,hidden_dim),
@@ -41,7 +41,6 @@ class QM9SDimeNet(BaseModel):
             nn.SiLU(),
             nn.Linear(hidden_dim,9)
         )
-        self.log_vars=nn.Parameter(torch.zeros(2))
 
     def forward(self,batch):
         hg=self.geom( batch.z, batch.pos, batch.batch, getattr(batch,"edge_index",None) )

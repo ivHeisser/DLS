@@ -64,7 +64,7 @@ class EGNNGapRegressor(BaseModel):
         depth: int = 4,
         mlp_hidden: int = 256,
     ):
-        super().__init__()
+        super().__init__(num_tasks=1)
         self.encoder = EGNNEncoder(
             num_atom_types=num_atom_types,
             emb_dim=emb_dim,

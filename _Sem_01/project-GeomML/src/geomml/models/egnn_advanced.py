@@ -192,12 +192,12 @@ class AdvancedEGNNEncoder(nn.Module):
 
 
 @MODELS.register(["egnn_advanced"])
-class MolecularEGNN_adv(nn.Module):
+class MolecularEGNN_adv(BaseModel):
 # ============================================================
 # Advanced Molecular EGNN
 # ============================================================
     def __init__(self, hidden_dim=256, n_tasks=32, n_tda=128):
-        super().__init__()
+        super().__init__(num_tasks=4)
 
         self.encoder=AdvancedEGNNEncoder(hidden_dim)
 
@@ -232,7 +232,6 @@ class MolecularEGNN_adv(nn.Module):
             nn.SiLU(),
             nn.Linear(hidden_dim, 1)
         )
-        self.log_vars=nn.Parameter(torch.zeros(4)) # uncertainty weights
 
 
     def forward(self, batch, compute_force=True):

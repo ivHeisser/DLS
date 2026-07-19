@@ -41,7 +41,7 @@ class TDAEncoder(nn.Module):
 @MODELS.register(["molecular"])
 class MolecularModel(BaseModel):
     def __init__(self, n_features=128, num_tasks=3):
-        super().__init__()
+        super().__init__(num_tasks=num_tasks)
 
         # encoders
         self.geom = SimpleGeomML(256)

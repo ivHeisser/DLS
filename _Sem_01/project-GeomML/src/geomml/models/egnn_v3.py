@@ -268,7 +268,7 @@ class EGNNEncoder(nn.Module):
 @MODELS.register(["egnn_v3"])
 class MolecularEGNN(BaseModel):
     def __init__(self,hidden_dim=128,num_tasks=10,n_tda=128,layers=6,dropout=0.1):
-        super().__init__()
+        super().__init__(num_tasks=num_tasks)
         self.encoder=EGNNEncoder(hidden_dim,layers)
         self.tda=TDAEncoder(n_tda,hidden_dim)
         self.task_emb=nn.Embedding(num_tasks,hidden_dim)
@@ -276,6 +276,7 @@ class MolecularEGNN(BaseModel):
         self.backbone=Backbone(hidden_dim,dropout)
         self.energy_head=nn.Sequential(nn.Linear(hidden_dim,hidden_dim),nn.SiLU(),nn.Linear(hidden_dim,1))
         self.heads=nn.ModuleDict({"y":nn.Sequential(nn.Linear(hidden_dim,hidden_dim),nn.SiLU(),nn.Linear(hidden_dim,1)),"dipole":nn.Sequential(nn.Linear(hidden_dim,hidden_dim),nn.SiLU(),nn.Linear(hidden_dim,1)),"polar":nn.Sequential(nn.Linear(hidden_dim,hidden_dim),nn.SiLU(),nn.Linear(hidden_dim,1))})
+    
     def forward(self,batch,compute_force=False):
         pos=batch.pos
         if compute_force:

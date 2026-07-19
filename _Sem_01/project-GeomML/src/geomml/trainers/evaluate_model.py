@@ -1,7 +1,22 @@
 import math, torch
 import torch.nn.functional as F
 from collections import defaultdict
-from sklearn.metrics import mean_absolute_error,mean_squared_error
+from sklearn.metrics import mean_absolute_error
+
+
+try:
+    from sklearn.metrics import root_mean_squared_error
+    '''
+The function "mean_squared_error" is deprecated
+  `squared` is deprecated in 1.4 and will be removed in 1.6. Use `root_mean_squared_error` instead to calculate the root mean squared error.
+    '''
+    def rmse(y_true, y_pred):
+        return root_mean_squared_error(y_true, y_pred)
+except ImportError:
+    from sklearn.metrics import mean_squared_error
+    def rmse(y_true, y_pred):
+        return mean_squared_error(y_true, y_pred, squared=False)
+
 
 
 @torch.no_grad()
@@ -105,18 +120,18 @@ def evaluate_qm9s(model,loader,device="cuda"):
         polar_true.append(batch.polar.cpu())
 
     dipole_pred=torch.cat(dipole_pred)
-    dipole_true=torch.cat(dipole_true)
+    dipole_true = torch.cat(dipole_true).view(-1,3)
 
     polar_pred=torch.cat(polar_pred)
-    polar_true=torch.cat(polar_true)
+    polar_true  = torch.cat(polar_true).view(-1,9)
 
     return {
         "dipole":{
             "MAE":mean_absolute_error( dipole_true, dipole_pred ),
-            "RMSE":mean_squared_error( dipole_true, dipole_pred, squared=False )
+            "RMSE":rmse( dipole_true, dipole_pred )
         },
         "polar":{
             "MAE":mean_absolute_error( polar_true, polar_pred ),
-            "RMSE":mean_squared_error( polar_true, polar_pred, squared=False )
+            "RMSE":rmse( polar_true, polar_pred )
         }
     }

@@ -84,7 +84,7 @@ class DimeEncoder(nn.Module):
 @MODELS.register(["dimenet_lite"])
 class MolecularDimeNetLite(BaseModel):
     def __init__(self,hidden_dim=256,n_tda=128,layers=6,num_tasks=16):
-        super().__init__()
+        super().__init__(num_tasks=num_tasks)
         self.geom=DimeEncoder(hidden_dim,layers)
         self.tda=nn.Sequential(
             nn.Linear(n_tda,hidden_dim),
@@ -109,7 +109,7 @@ class MolecularDimeNetLite(BaseModel):
             nn.SiLU(),
             nn.Linear(hidden_dim,1)
         )
-        self.log_vars = nn.Parameter(torch.zeros(num_tasks))
+        #self.log_vars = nn.Parameter(torch.zeros(num_tasks))
 
     def forward(self,batch):
         hg=self.geom(batch.z,batch.pos,batch.batch,getattr(batch,"edge_index",None))

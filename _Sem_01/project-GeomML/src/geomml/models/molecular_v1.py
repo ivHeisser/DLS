@@ -131,7 +131,7 @@ class RegressionHead_2(nn.Module):
 @MODELS.register(["molecular_v1"])
 class MolecularModel(BaseModel):
     def __init__(self, n_features=128, num_tasks=3):
-        super().__init__()
+        super().__init__(num_tasks=num_tasks)
         self.log_vars = nn.Parameter(torch.zeros(3)) 
         self.graph = GraphEncoder()
         self.tda = TDAEncoder(n_features)

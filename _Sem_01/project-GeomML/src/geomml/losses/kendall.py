@@ -4,7 +4,34 @@ from geomml.registry import LOSSES
 
 
 @LOSSES.register("kendall_loss")
-def kendall_loss(outputs,batch,model,clamp=(-10,10)):
+def kendall_loss(outputs, batch, model, clamp=(-10,10)):
+    loss = 0.0
+    n_tasks = 0
+    # автоматически берем все задачи из outputs
+    task_keys = [
+        k for k in outputs.keys()
+        if k not in ["repr"]
+    ]
+    for tid, key in enumerate(task_keys):
+        pred = outputs[key]
+        target = getattr(batch, key, None)
+        if target is None:
+            continue
+        pred = pred.float()
+        target = target.float()
+        pred = pred.view(pred.size(0), -1)
+        target = target.view(target.size(0), -1)
+        mse = (pred - target).pow(2).mean()
+        # если log_vars соответствует числу задач
+        s = model.log_vars[tid].clamp(*clamp)
+        loss += torch.exp(-s) * mse + s
+        n_tasks += 1
+    return loss / max(n_tasks, 1)
+
+
+
+@LOSSES.register("kendall_loss_v0")
+def kendall_loss_v0(outputs,batch,model,clamp=(-10,10)):
     pred = outputs["y"].view(-1)
     target = batch.y.view(-1)
     mask = getattr(batch, "mask_y", torch.ones_like(target)).bool()

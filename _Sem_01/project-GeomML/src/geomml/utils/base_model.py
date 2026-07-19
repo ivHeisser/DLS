@@ -18,8 +18,9 @@ class BaseModel(nn.Module, ABC):
         and the input batch.
     """
 
-    def __init__(self):
+    def __init__(self, num_tasks):
         super().__init__()
+        self.log_vars = nn.Parameter(torch.zeros(num_tasks)) # uncertainty weights
 
     @abstractmethod
     def forward(self, batch) -> dict[str, torch.Tensor]:
