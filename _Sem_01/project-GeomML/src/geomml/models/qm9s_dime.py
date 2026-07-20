@@ -65,9 +65,4 @@ class QM9SDimeNet(BaseModel):
         }
 
     def loss_fn(self,pred,batch):
-        dipole_target=batch.dipole.view(pred["dipole"].shape)
-        polar_target=batch.polar.view(pred["polar"].shape)
-        loss_d=F.mse_loss(pred["dipole"],dipole_target)
-        loss_p=F.mse_loss(pred["polar"],polar_target)
-        loss=torch.exp(-self.log_vars[0])*loss_d+self.log_vars[0]+torch.exp(-self.log_vars[1])*loss_p+self.log_vars[1]
-        return loss
+        raise Exception("loss func was not Implemented! Use custom loss func")

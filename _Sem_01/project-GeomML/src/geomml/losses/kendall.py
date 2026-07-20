@@ -27,6 +27,8 @@ def kendall_loss(outputs, batch, model, clamp=(-10,10)):
         loss += torch.exp(-s) * mse + s
         n_tasks += 1
     return loss / max(n_tasks, 1)
+# В оригинальной статье Kendall используется сумма, а не среднее:
+# return loss , a не  return loss / max(n_tasks, 1)
 
 
 
